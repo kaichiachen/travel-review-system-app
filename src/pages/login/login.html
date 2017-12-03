@@ -1,0 +1,42 @@
+<ion-header>
+<ion-navbar>
+    <ion-title>登入</ion-title>
+</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>账号</ion-label>
+      <ion-input type="text" value=""></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-label fixed>密码</ion-label>
+      <ion-input type="password"></ion-input>
+    </ion-item>
+  
+  </ion-list>
+  <!-- <div class="btncontainer">
+  <button ion-button clear class="loginbtn">登入</button>
+  <button ion-button clear class="registerbtn">注册</button>
+  </div> -->
+  <button ion-button full (click)="login('hi')">登入</button>
+  <button ion-button full color="danger">注册</button>
+</ion-content>
+
+<style>
+.btncontainer {
+  width: 50%;
+  margin: 0 auto;
+  display: block;
+}
+
+.loginbtn {
+  float: left;
+}
+
+.registerbtn {
+  float: right;
+}
+</style>
