@@ -1,0 +1,8 @@
+{
+  "name": "travel-review-system",
+  "app_id": "ad17c645",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
