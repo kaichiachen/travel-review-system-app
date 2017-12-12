@@ -4,6 +4,7 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { LoginPage } from '../pages/login/login';
+import { SignUpPage } from '../pages/signup/signup';
 import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
@@ -15,10 +16,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { UserInfoService } from '../providers/UserInfoService';
 import { StorageService } from '../providers/StorageService';
 
+
 @NgModule({
   declarations: [
     MyApp,
     LoginPage,
+    SignUpPage,
     AboutPage,
     ContactPage,
     HomePage,
@@ -33,6 +36,7 @@ import { StorageService } from '../providers/StorageService';
   entryComponents: [
     MyApp,
     LoginPage,
+    SignUpPage,
     AboutPage,
     ContactPage,
     HomePage,

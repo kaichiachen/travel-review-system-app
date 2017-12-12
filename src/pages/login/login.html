@@ -16,14 +16,9 @@
         <ion-label fixed>密码</ion-label>
         <ion-input type="password" formControlName="LoginPwd"></ion-input>
       </ion-item>
-    
     </ion-list>
-    <!-- <div class="btncontainer">
-    <button ion-button clear class="loginbtn">登入</button>
-    <button ion-button clear class="registerbtn">注册</button>
-    </div> -->
     <button ion-button full (click)="login(loginForm.value)" [disabled]="!loginForm.valid">登入</button>
-    <button ion-button full color="danger">注册</button>
+    <button ion-button full color="danger" (click)="signup()">注册</button>
   </form>
 </ion-content>
 

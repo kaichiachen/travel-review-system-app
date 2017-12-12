@@ -1,0 +1,41 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>注册</ion-title>
+    </ion-navbar>
+</ion-header>
+        
+<ion-content padding>
+    <form [formGroup]="signUpForm">
+        <ion-list>
+            <ion-item>
+                <ion-label fixed>账号</ion-label>
+                <ion-input type="text"  formControlName="SignUpID"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label fixed>密码</ion-label>
+                <ion-input type="password" formControlName="SignUpPwd"></ion-input>
+            </ion-item>
+            
+            <ion-item>
+                <ion-label fixed>确认密码</ion-label>
+                <ion-input type="password" formControlName="SignUpCPwd"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label fixed>名称</ion-label>
+                <ion-input type="text" formControlName="SignUpName"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>性别</ion-label>
+                <ion-select formControlName="SignUpSex">
+                    <ion-option value="male">男</ion-option>
+                    <ion-option value="female">女</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+        <button ion-button full (click)="signup(signUpForm.value)" [disabled]="!signUpForm.valid">创建账户</button>
+    </form>
+</ion-content>
+        
