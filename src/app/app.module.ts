@@ -12,6 +12,8 @@ import { SlidesPage } from '../pages/slides/slides';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { UserInfoService } from '../providers/UserInfoService';
+import { StorageService } from '../providers/StorageService';
 
 @NgModule({
   declarations: [
@@ -40,7 +42,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    UserInfoService,
+    StorageService
   ]
 })
 export class AppModule {}
