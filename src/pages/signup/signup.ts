@@ -21,7 +21,7 @@ export class SignUpPage {
     'SignUpPwd': ['1', [Validators.required,]],
     'SignUpCPwd': ['1', [Validators.required,]],
     'SignUpName': ['1', [Validators.required,]],
-    'SignUpSex': ['male', [Validators.required,]]
+    'SignUpGender': ['male', [Validators.required,]]
   });
 
   signup(userInfo) {

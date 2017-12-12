@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController,ToastController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { UserInfoService } from '../../providers/UserInfoService'
-import { StorageService } from '../../providers/StorageService'
+import { UserInfoData } from '../../model/UserInfoData'
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignUpPage } from '../signup/signup';
 
@@ -15,20 +15,20 @@ export class LoginPage {
   constructor(
     public navCtrl: NavController,
     private userInfoService: UserInfoService,
-    private storageService: StorageService,
     private formBuilder: FormBuilder,
     public toastCtrl: ToastController
   ) { }
 
   loginForm = this.formBuilder.group({
-    'LoginID': ['1', [Validators.required,]],// 第一个参数是默认值
-    'LoginPwd': ['1', [Validators.required,]]
+    'username': ['1', [Validators.required,]],// 第一个参数是默认值
+    'password': ['1', [Validators.required,]]
   });
 
-  login(userInfo) {
-    console.log(userInfo.LoginID);
-    if (userInfo.LoginID == "123"){
-      this.showToast("???")
+  login(data) {
+    console.log(data);
+    let userInfo = this.userInfoService.login(data.username, data.password)
+    if (userInfo == null){
+      this.showToast("登录失败！")
     }
     else{
       this.navCtrl.push(TabsPage);
