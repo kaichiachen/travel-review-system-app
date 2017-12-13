@@ -7,6 +7,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { SignUpPage } from '../signup/signup';
 
 @Component({
+  selector: 'page-login',
   templateUrl: 'login.html',
   providers: [UserInfoService]
 })

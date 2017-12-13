@@ -1,12 +1,13 @@
 <ion-header>
-<ion-navbar>
+  <ion-navbar>
     <ion-title>登入</ion-title>
-</ion-navbar>
+  </ion-navbar>
 </ion-header>
 
 <ion-content padding>
   <form [formGroup]="loginForm">
     <ion-list>
+      
       <ion-item>
         <ion-label fixed>账号</ion-label>
         <ion-input type="text" placeholder="Username" clearInput formControlName="username"></ion-input>
@@ -21,19 +22,3 @@
     <button ion-button full color="danger" (click)="signup()">注册</button>
   </form>
 </ion-content>
-
-<style>
-.btncontainer {
-  width: 50%;
-  margin: 0 auto;
-  display: block;
-}
-
-.loginbtn {
-  float: left;
-}
-
-.registerbtn {
-  float: right;
-}
-</style>
