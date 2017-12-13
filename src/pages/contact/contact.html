@@ -7,12 +7,11 @@
 </ion-header>
 
 <ion-content>
-  <label>{{value}}</label>
   <ion-list>
-    <ion-list-header>Follow us on Twitter</ion-list-header>
-    <ion-item>
-      <ion-icon name="ionic" item-start></ion-icon>
-      @ionicframework
+    <!-- <ion-list-header>User Information</ion-list-header> -->
+    <ion-item *ngFor="let item of listItems">
+      <h1>{{ item[0] }}</h1>
+      <p id="itemValue">{{ item[1] }}</p>
     </ion-item>
   </ion-list>
 </ion-content>

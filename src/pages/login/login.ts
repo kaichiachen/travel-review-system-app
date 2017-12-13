@@ -18,7 +18,7 @@ export class LoginPage {
     private formBuilder: FormBuilder,
     public toastCtrl: ToastController
   ) { }
-
+  allowEdit = true;
   loginForm = this.formBuilder.group({
     'username': ['1', [Validators.required,]],// 第一个参数是默认值
     'password': ['1', [Validators.required,]]

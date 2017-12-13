@@ -10,4 +10,12 @@ export class UserInfoData {
                 ',"gender":' + this.gender +
                 '}'
     }
+    genderToStr(): string{
+        if(this.gender == 1){
+          return "男"
+        }
+        else{
+          return "女"
+        }
+    }
 }	
