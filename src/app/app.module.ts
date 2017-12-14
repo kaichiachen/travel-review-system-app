@@ -10,6 +10,7 @@ import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SlidesPage } from '../pages/slides/slides';
+import { TravelNotesPage } from '../pages/notes/notes';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -27,7 +28,8 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     ContactPage,
     HomePage,
     TabsPage,
-    SlidesPage
+    SlidesPage,
+    TravelNotesPage
   ],
   imports: [
     BrowserModule,
@@ -42,7 +44,8 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     ContactPage,
     HomePage,
     TabsPage,
-    SlidesPage
+    SlidesPage,
+    TravelNotesPage
   ],
   providers: [
     StatusBar,

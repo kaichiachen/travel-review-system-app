@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { TravelNotesService } from '../../providers/TravelNotesService'
-import { LoginPage } from '../login/login'
+import { TravelNotesPage } from '../notes/notes'
 
 @Component({
   selector: 'page-home',
@@ -18,6 +18,6 @@ export class HomePage {
   cards = []
   push(location: string){
     console.log(location)
-    this.navCtrl.push(LoginPage)
+    this.navCtrl.push(TravelNotesPage, {'location': location})
   }
 }
