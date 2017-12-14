@@ -1,21 +1,23 @@
 export class UserInfoData {
-    username:string;
-    password:string;
-    name:string;
-    gender:number;
+    id:number
+    username:string
+    name:string
+    role:number
     toJsonStr(): string{
-        return  '{"username":' + '"' + this.username + '"' +
-                ',"password":' + '"' + this.password + '"' + 
+        return  '{"id":' + '"' + this.id + '"' +
+                ',"username":' + '"' + this.username + '"' + 
                 ',"name":' + '"' + this.name + '"' +
-                ',"gender":' + this.gender +
+                ',"role":' + this.role +
                 '}'
     }
-    genderToStr(): string{
-        if(this.gender == 1){
-          return "男"
-        }
-        else{
-          return "女"
+    roleToStr(): string{
+        switch(this.role){
+            case 0: return "管理员"
+            case 1: return "终审员"
+            case 2: return "初审员"
+            case 3: return "普通用户"
+            default:
+            return "???"
         }
     }
 }	

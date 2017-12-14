@@ -17,16 +17,16 @@ export class ContactPage {
     userInfo = this.userInfoService.getUserInfo()
     console.log("Contacts: get userInfo -> " + userInfo.toJsonStr())
 
-    this.listItems[0][1] = userInfo.name
-    this.listItems[1][1] = userInfo.username
-    this.listItems[2][1] = userInfo.genderToStr()
-    this.listItems[3][1] = "???"
+    this.listItems[0][1] = userInfo.id.toString()
+    this.listItems[1][1] = userInfo.name
+    this.listItems[2][1] = userInfo.username
+    this.listItems[3][1] = userInfo.roleToStr()
   }
   listItems = [
+    ["ID", ""],
     ["名称", ""],
     ["账号", ""],
-    ["性别", ""],
-    ["发文数", ""],
+    ["权限", ""],
   ]
   
 }

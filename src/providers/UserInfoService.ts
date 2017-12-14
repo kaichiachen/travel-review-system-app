@@ -1,24 +1,36 @@
 import { Injectable } from '@angular/core';
 import { UserInfoData } from "../model/UserInfoData"
 import { StorageService } from '../providers/StorageService'
+import { loginReq } from '../req/index'
 
 @Injectable()
 export class UserInfoService {
     constructor(
         private storageService: StorageService,
     ) {}
-    login(username: string, password:string): UserInfoData{
-        if(username == "123"){
-            return null
-        }
+    
+    login(username: string, password:string, callback){
         var userInfo = new UserInfoData()
-        userInfo.name = "wuchunghsuan"
-        userInfo.password = password
-        userInfo.username = username
-        userInfo.gender = 1
-        console.log("Login: " + userInfo.toJsonStr())
-        this.storageService.write("userInfo", userInfo.toJsonStr())
-        return userInfo
+        loginReq(username, password).then((success) => {
+            /* eslint no-console: ["error", { allow: ["debug"] }] */
+            // console.debug(success.User);
+            if (success.User !== undefined && success.User.length === 1) {
+                userInfo.id =  success.User[0].id
+                userInfo.name =  success.User[0].name
+                userInfo.username =  username
+                userInfo.role =  success.User[0].role
+                this.storageService.write("userInfo", userInfo.toJsonStr())
+                console.log("loginReq: success! -> " + userInfo.toJsonStr())
+                callback(userInfo)
+            } else {
+                console.log("loginReq: fail!")
+                callback(userInfo)
+            }
+        }, (error) => {
+            /* eslint no-console: ["error", { allow: ["debug"] }] */
+            console.debug("loginReq:" + error);
+            userInfo = null
+        });
     }
     logout(){
         this.storageService.remove("userInfo")
@@ -31,10 +43,10 @@ export class UserInfoService {
             return null
         }
         let userInfo = new UserInfoData
+        userInfo.id = data.id
         userInfo.username = data.username
-        userInfo.password = data.password
         userInfo.name = data.name
-        userInfo.gender = data.gender
+        userInfo.role = data.role
         console.log("getUserInfo: " + data)
         return userInfo
     }
