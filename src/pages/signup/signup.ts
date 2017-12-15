@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, ToastController, LoadingController } from 'ionic-angular'
 import { TabsPage } from '../tabs/tabs';
-// import { StorageService } from '../../providers/StorageService'
 import { UserInfoService } from '../../providers/UserInfoService'
 import { UserInfoData } from '../../model/UserInfoData'
 import { FormBuilder, Validators } from '@angular/forms'
@@ -14,7 +13,6 @@ export class SignUpPage {
 
 	constructor(
 		public navCtrl: NavController,
-		// private storageService: StorageService,
 		private formBuilder: FormBuilder,
 		public toastCtrl: ToastController,
 		public loadingCtrl: LoadingController,
@@ -29,14 +27,10 @@ export class SignUpPage {
 	});
   
 	signup() {
-		// console.log(userInfo);
 		if(this.signUpForm.value.password != this.signUpForm.value.rpassword){
 			this.showToast("密码不一致！")
 			return
 		}
-		// else{
-		// 	this.navCtrl.push(TabsPage);
-		// }
 		let loader = this.loadingCtrl.create({
 			content: "Loading...",
 		});
@@ -60,7 +54,6 @@ export class SignUpPage {
 				loader.dismiss()
 			}
 		 }, (error) => {
-			/* eslint no-console: ["error", { allow: ["debug"] }] */
 			loader.dismiss()
 			console.debug(error);
 			this.showToast(error)
