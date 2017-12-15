@@ -8,34 +8,25 @@
     <form [formGroup]="signUpForm">
         <ion-list>
             <ion-item>
+                <ion-label fixed>名称</ion-label>
+                <ion-input type="text" formControlName="name"></ion-input>
+            </ion-item>
+            <ion-item>
                 <ion-label fixed>账号</ion-label>
-                <ion-input type="text"  formControlName="SignUpID"></ion-input>
+                <ion-input type="text"  formControlName="username"></ion-input>
             </ion-item>
             
             <ion-item>
                 <ion-label fixed>密码</ion-label>
-                <ion-input type="password" formControlName="SignUpPwd"></ion-input>
+                <ion-input type="password" formControlName="password"></ion-input>
             </ion-item>
             
             <ion-item>
                 <ion-label fixed>确认密码</ion-label>
-                <ion-input type="password" formControlName="SignUpCPwd"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label fixed>名称</ion-label>
-                <ion-input type="text" formControlName="SignUpName"></ion-input>
-            </ion-item>
-
-            <ion-item>
-                <ion-label>性别</ion-label>
-                <ion-select formControlName="SignUpGender">
-                    <ion-option value="male">男</ion-option>
-                    <ion-option value="female">女</ion-option>
-                </ion-select>
+                <ion-input type="password" formControlName="rpassword"></ion-input>
             </ion-item>
         </ion-list>
-        <button ion-button full (click)="signup(signUpForm.value)" [disabled]="!signUpForm.valid">创建账户</button>
+        <button ion-button full (click)="signup()" [disabled]="!signUpForm.valid">创建账户</button>
     </form>
 </ion-content>
         

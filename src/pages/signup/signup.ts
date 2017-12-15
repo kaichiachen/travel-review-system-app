@@ -1,46 +1,79 @@
 import { Component } from '@angular/core';
-import { NavController,ToastController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular'
 import { TabsPage } from '../tabs/tabs';
 // import { StorageService } from '../../providers/StorageService'
-import { FormBuilder, Validators } from '@angular/forms';
+import { UserInfoService } from '../../providers/UserInfoService'
+import { UserInfoData } from '../../model/UserInfoData'
+import { FormBuilder, Validators } from '@angular/forms'
+import { userRegister } from '../../req'
 
 @Component({
-  templateUrl: 'signup.html',
+  	templateUrl: 'signup.html',
 })
 export class SignUpPage {
 
-  constructor(
-    public navCtrl: NavController,
-    // private storageService: StorageService,
-    private formBuilder: FormBuilder,
-    public toastCtrl: ToastController
-  ) { }
+	constructor(
+		public navCtrl: NavController,
+		// private storageService: StorageService,
+		private formBuilder: FormBuilder,
+		public toastCtrl: ToastController,
+		public loadingCtrl: LoadingController,
+		public userInfoService: UserInfoService,
+	) { }
 
-  signUpForm = this.formBuilder.group({
-    'SignUpID': ['1', [Validators.required,]],
-    'SignUpPwd': ['1', [Validators.required,]],
-    'SignUpCPwd': ['1', [Validators.required,]],
-    'SignUpName': ['1', [Validators.required,]],
-    'SignUpGender': ['male', [Validators.required,]]
-  });
+	signUpForm = this.formBuilder.group({
+		'name': ['Johnson', [Validators.required,]],
+		'username': ['wuchunghsuan', [Validators.required,]],
+		'password': ['123456', [Validators.required,]],
+		'rpassword': ['123456', [Validators.required,]],
+	});
+  
+	signup() {
+		// console.log(userInfo);
+		if(this.signUpForm.value.password != this.signUpForm.value.rpassword){
+			this.showToast("密码不一致！")
+			return
+		}
+		// else{
+		// 	this.navCtrl.push(TabsPage);
+		// }
+		let loader = this.loadingCtrl.create({
+			content: "Loading...",
+		});
+		loader.present();
+		userRegister({
+			name: this.signUpForm.value.name,
+			username: this.signUpForm.value.username,
+			pwd: this.signUpForm.value.password,
+			role: 3,
+		}).then((success) => {
+			if (success !== null && success.id != null) {
+				let userInfo = new UserInfoData(success.id, 
+												success.name,
+												success.username,
+												success.role)
+				this.userInfoService.setUserInfo(userInfo)
+				loader.dismiss()
+				this.navCtrl.push(TabsPage)
+			} else {
+				this.showToast("注册失败！")
+				loader.dismiss()
+			}
+		 }, (error) => {
+			/* eslint no-console: ["error", { allow: ["debug"] }] */
+			loader.dismiss()
+			console.debug(error);
+			this.showToast(error)
+		});
+	}
 
-  signup(userInfo) {
-    console.log(userInfo);
-    if(this.signUpForm.value.SignUpPwd != this.signUpForm.value.SignUpCPwd){
-        this.showToast("密码不一致！")
-    }
-    else{
-        this.navCtrl.push(TabsPage);
-    }
-  }
-
-  showToast(text: string) {
-    let toast = this.toastCtrl.create({
-      message: text,
-      duration: 2000,
-      position: 'button'
-    });
-    toast.present(toast);
-  }
+	showToast(text: string) {
+		let toast = this.toastCtrl.create({
+		message: text,
+		duration: 2000,
+		position: 'button'
+		});
+		toast.present(toast);
+	}
 
 }

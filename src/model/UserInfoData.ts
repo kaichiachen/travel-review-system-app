@@ -1,4 +1,10 @@
 export class UserInfoData {
+    constructor(id: number, username:string, name:string, role:number){
+        this.id = id
+        this.username = username
+        this.name = name
+        this.role = role
+    }
     id:number
     username:string
     name:string

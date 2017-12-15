@@ -6,7 +6,7 @@
 
 <ion-content padding class="card-background-page">
   <ion-card *ngFor="let item of cards"  button (click)="push(item)">
-    <img src="../../assets/imgs/{{item}}.jpg">
-    <div class="card-title">{{item}}</div>
+    <img src="../../assets/imgs/{{item[0]}}.jpg">
+    <div class="card-title">{{item[0]}}</div>
   </ion-card>
 </ion-content>
