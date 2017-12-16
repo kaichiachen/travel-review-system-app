@@ -1,6 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
+      <ion-icon name="contacts"></ion-icon>
       Contact
     </ion-title>
   </ion-navbar>
@@ -8,10 +9,11 @@
 
 <ion-content>
   <ion-list>
-    <!-- <ion-list-header>User Information</ion-list-header> -->
     <ion-item *ngFor="let item of listItems">
-      <h1>{{ item[0] }}</h1>
-      <p id="itemValue">{{ item[1] }}</p>
+        {{ item[0] }}
+      <ion-note item-end>
+        {{ item[1] }}
+      </ion-note>
     </ion-item>
   </ion-list>
 </ion-content>

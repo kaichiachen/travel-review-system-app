@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
-import { UserInfoData } from '../../model/UserInfoData'
 import { UserInfoService } from '../../providers/UserInfoService'
 
 @Component({

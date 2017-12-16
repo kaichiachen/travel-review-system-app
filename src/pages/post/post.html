@@ -1,0 +1,33 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>
+        <ion-icon name="create"></ion-icon>
+            Post
+        </ion-title>
+    </ion-navbar>
+</ion-header>
+            
+<ion-content padding>
+    <form [formGroup]="PostForm">
+        <ion-list>
+            <ion-item>
+                <ion-label floating>名称</ion-label>
+                <ion-input type="text" formControlName="title"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>地点</ion-label>
+                <ion-select formControlName="location">
+                    <ion-option *ngFor="let item of locations" value={{item[0]}}>{{item[1]}}</ion-option>
+                </ion-select>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>内容</ion-label>
+                <ion-textarea formControlName="content"  rows=20 cols=40 ></ion-textarea>
+            </ion-item>
+        </ion-list>
+        <button ion-button full (click)="post()" [disabled]="!PostForm.valid">创建游记</button>
+    </form>
+</ion-content>
+            

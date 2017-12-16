@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
 import { TravelNotesService } from '../../providers/TravelNotesService'
 import { TravelNotesData } from '../../model/TravelNotesData'
-import { postListReq } from '../../req'
+import { postListReq } from '../../req/index'
 
 @Component({
   templateUrl: 'notes.html'

@@ -5,7 +5,7 @@ import { UserInfoService } from '../../providers/UserInfoService'
 import { UserInfoData } from '../../model/UserInfoData'
 import { FormBuilder, Validators } from '@angular/forms';
 import { SignUpPage } from '../signup/signup';
-import { loginReq } from '../../req/index.js'
+import { loginReq } from '../../req'
 
 @Component({
 	selector: 'page-login',

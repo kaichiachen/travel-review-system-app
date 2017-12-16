@@ -4,7 +4,7 @@ import { TabsPage } from '../tabs/tabs';
 import { UserInfoService } from '../../providers/UserInfoService'
 import { UserInfoData } from '../../model/UserInfoData'
 import { FormBuilder, Validators } from '@angular/forms'
-import { userRegister } from '../../req'
+import { userRegister } from '../../req/index'
 
 @Component({
   	templateUrl: 'signup.html',

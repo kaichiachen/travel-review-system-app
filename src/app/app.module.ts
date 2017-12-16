@@ -5,12 +5,12 @@ import { MyApp } from './app.component';
 
 import { LoginPage } from '../pages/login/login';
 import { SignUpPage } from '../pages/signup/signup';
-import { AboutPage } from '../pages/about/about';
 import { ContactPage } from '../pages/contact/contact';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
 import { SlidesPage } from '../pages/slides/slides';
 import { TravelNotesPage } from '../pages/notes/notes';
+import { PostPage } from '../pages/post/post';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -24,12 +24,12 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     MyApp,
     LoginPage,
     SignUpPage,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
     SlidesPage,
-    TravelNotesPage
+    TravelNotesPage,
+    PostPage
   ],
   imports: [
     BrowserModule,
@@ -40,12 +40,12 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     MyApp,
     LoginPage,
     SignUpPage,
-    AboutPage,
     ContactPage,
     HomePage,
     TabsPage,
     SlidesPage,
-    TravelNotesPage
+    TravelNotesPage,
+    PostPage
   ],
   providers: [
     StatusBar,
