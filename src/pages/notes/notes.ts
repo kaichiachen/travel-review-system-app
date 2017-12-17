@@ -71,4 +71,24 @@ export class TravelNotesPage {
             infiniteScroll.complete();
         },500)
     }
+    reloadNotes(){
+        this.notes = []
+        for(let i = 0; i < this.bufIndex; i++){
+            this.notes.push(this.notesBuf[i])
+        }
+    }
+    getItems(ev: any) {
+        // Reset items back to all of the items
+        this.reloadNotes();
+    
+        // set val to the value of the searchbar
+        let val = ev.target.value;
+    
+        // if the value is an empty string don't filter the items
+        if (val && val.trim() != '') {
+          this.notes = this.notesBuf.filter((item) => {
+            return (item.title.indexOf(val.toLowerCase()) > -1);
+          })
+        }
+      }
 }
