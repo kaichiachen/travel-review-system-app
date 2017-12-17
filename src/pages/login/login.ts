@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ToastController, LoadingController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController, ViewController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { UserInfoService } from '../../providers/UserInfoService'
 import { UserInfoData } from '../../model/UserInfoData'
@@ -18,7 +18,8 @@ export class LoginPage {
 		private formBuilder: FormBuilder,
 		public toastCtrl: ToastController,
 		public userInfoService: UserInfoService,
-		public loadingCtrl: LoadingController
+		public loadingCtrl: LoadingController,
+		public viewCtrl: ViewController
   	) { }
 
   	loginForm = this.formBuilder.group({
@@ -42,7 +43,8 @@ export class LoginPage {
 				this.userInfoService.setUserInfo(userInfo)
 				console.log("loginReq: success! -> " + userInfo.toJsonStr())
 				loader.dismiss()
-				this.navCtrl.push(TabsPage);
+				this.dismiss()
+				// this.navCtrl.push(TabsPage);
 			} else {
 				console.log("loginReq: fail!")
 				loader.dismiss()
@@ -67,5 +69,12 @@ export class LoginPage {
 			position: 'button'
     	});
 		toast.present(toast);
-  	}
+	}
+	  
+	dismiss() {
+    	this.viewCtrl.dismiss();
+	}
+	cancel(){
+		this.navCtrl.push(TabsPage)
+	}  
 }
