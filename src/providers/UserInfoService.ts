@@ -21,4 +21,7 @@ export class UserInfoService {
         console.log("getUserInfo: " + data)
         return userInfo
     }
+    removeUserInfo(){
+        this.storageService.remove("userInfo")
+    }
 }

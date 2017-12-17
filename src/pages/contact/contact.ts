@@ -14,6 +14,9 @@ export class ContactPage {
 		private userInfoService: UserInfoService,
 		public modalCtrl: ModalController
 	) {
+		this.init()
+	}
+	init(){
 		if(!this.refresh()){
 			let loginModal = this.modalCtrl.create(LoginPage);
 			loginModal.onDidDismiss(data => {
@@ -37,6 +40,10 @@ export class ContactPage {
 		this.listItems[2][1] = userInfo.username
 		this.listItems[3][1] = userInfo.roleToStr()
 		return true
+	}
+	logout(){
+		this.userInfoService.removeUserInfo()
+		this.init()
 	}
 	listItems = [
 		["ID", ""],

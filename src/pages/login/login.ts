@@ -70,7 +70,7 @@ export class LoginPage {
     	});
 		toast.present(toast);
 	}
-	  
+	
 	dismiss() {
     	this.viewCtrl.dismiss();
 	}

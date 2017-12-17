@@ -7,7 +7,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <ion-list>
     <ion-item *ngFor="let item of listItems">
         {{ item[0] }}
@@ -16,4 +16,5 @@
       </ion-note>
     </ion-item>
   </ion-list>
+  <button ion-button full color="danger" (click)="logout()">登出</button>
 </ion-content>
