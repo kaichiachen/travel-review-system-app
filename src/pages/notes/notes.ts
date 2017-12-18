@@ -42,7 +42,7 @@ export class TravelNotesPage {
             for(let i in success.Post){
                 if(success.Post[i].location == location){
                     let data = new TravelNotesData(success.Post[i].id, success.Post[i].title, success.Post[i].content,
-                                                    success.Post[i].author, success.Post[i].location, 
+                                                    success.Post[i].author, null, success.Post[i].location, 
                                                     success.Post[i].submittime)
                     datas.push(data)
                 }

@@ -4,6 +4,7 @@ export class TravelNotesData{
         title: string,
         content: string,
         author: string,
+        username: string,
         location: string,
         submittime: number
     ){
@@ -11,6 +12,7 @@ export class TravelNotesData{
         this.title = title
         this.content = content
         this.author = author
+        this.username = username
         this.location = location
         this.submittime = submittime
     }
@@ -18,6 +20,7 @@ export class TravelNotesData{
     title: string
     content: string
     author: string
+    username: string
     location: string
     submittime: number
 }

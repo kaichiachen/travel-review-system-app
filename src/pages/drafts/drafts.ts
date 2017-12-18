@@ -4,6 +4,7 @@ import { DraftData } from '../../model/TravelNotesData'
 import { UserInfoService } from '../../providers/UserInfoService';
 import { LoginPage } from '../login/login'
 import { draftListReq, deleteDraftReq } from '../../req/index'
+import { PostPage } from '../post/post';
 
 @Component({
   templateUrl: 'drafts.html'
@@ -18,11 +19,6 @@ export class DraftsPage {
         this.init()
     }
     listDrafts = []
-
-    pushDraft(event: any){
-        
-    }
-
     init(){
 		if(!this.refresh()){
 			let loginModal = this.modalCtrl.create(LoginPage);
@@ -55,9 +51,10 @@ export class DraftsPage {
             console.log("draftListReq: " + success.Draftpost)
             for(let i in success.Draftpost){
                 if(success.Draftpost[i].username == username){
-                    let data = new DraftData(success.Draftpost[i].id, success.Draftpost[i].title, success.Draftpost[i].content,
-                                                    success.Draftpost[i].author, success.Draftpost[i].location, 
-                                                    0)
+                    let data = new DraftData(success.Draftpost[i].id, success.Draftpost[i].title, 
+                                                success.Draftpost[i].content,success.Draftpost[i].author, 
+                                                success.Draftpost[i].username,success.Draftpost[i].location, 
+                                                0)
                     datas.push(data)
                 }
             }
@@ -83,5 +80,11 @@ export class DraftsPage {
         }, (error) => {
             console.debug("deleteDraftReq:" + error);
         });
+    }
+    createDraft(){
+        this.navCtrl.push(PostPage)
+    }
+    updateDraft(draftData: DraftData){
+        this.navCtrl.push(PostPage, {'draftData': draftData})
     }
 }

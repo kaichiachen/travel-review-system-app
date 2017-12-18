@@ -10,7 +10,7 @@
 <ion-content padding>
     <ion-list>
         <ion-item-sliding *ngFor="let item of listDrafts" >
-            <button ion-item (click)="pushDraft()">
+            <button ion-item (click)="updateDraft(item)">
                 {{ item.title }}
             </button>
             <ion-item-options>

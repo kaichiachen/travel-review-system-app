@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-title>
         <ion-icon name="create"></ion-icon>
-            Post
+            Draft
         </ion-title>
     </ion-navbar>
 </ion-header>
@@ -18,7 +18,7 @@
             <ion-item>
                 <ion-label floating>地点</ion-label>
                 <ion-select formControlName="location">
-                    <ion-option *ngFor="let item of locations" value={{item[0]}}>{{item[1]}}</ion-option>
+                    <ion-option *ngFor="let item of locations" value={{item[1]}}>{{item[1]}}</ion-option>
                 </ion-select>
             </ion-item>
 
@@ -27,7 +27,8 @@
                 <ion-textarea formControlName="content"  rows=20 cols=40 ></ion-textarea>
             </ion-item>
         </ion-list>
-        <button ion-button full (click)="post()" [disabled]="!PostForm.valid">创建游记</button>
+        <button ion-button full color="primary" (click)="post()" [disabled]="!PostForm.valid">发布</button>
+        <button ion-button full color="secondary" (click)="save()">储存</button>
     </form>
 </ion-content>
             
