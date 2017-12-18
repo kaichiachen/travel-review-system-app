@@ -82,6 +82,10 @@ export const draftListReq = () => fetch('draftpost',
 {}, 'GET',
 );
 
+export const deleteDraftReq = draftid => fetch(`draftpost/${draftid}`,
+{}, 'DELETE',
+);
+
 // review
 export const reviewListReq = () => fetch('review',
   {}, 'GET',

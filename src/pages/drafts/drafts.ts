@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
+import { NavController, LoadingController, ModalController } from 'ionic-angular';
 import { DraftData } from '../../model/TravelNotesData'
 import { UserInfoService } from '../../providers/UserInfoService';
 import { LoginPage } from '../login/login'
-import { draftListReq,  } from '../../req/index'
+import { draftListReq, deleteDraftReq } from '../../req/index'
 
 @Component({
   templateUrl: 'drafts.html'
@@ -68,6 +68,20 @@ export class DraftsPage {
         });
     }
     deleteDraft(draft: DraftData){
-
+        deleteDraftReq(draft.id).then((success) => {
+            let loader = this.loadingCtrl.create({
+            content: "Loading...",
+            });
+            loader.present();
+            console.log("deleteDraftReq: " + success)
+            for(let i = 0; i < this.listDrafts.length; i++){
+                if(draft.id == this.listDrafts[i].id){
+                    this.listDrafts.splice(i, 1)
+                }
+            }
+            loader.dismiss()
+        }, (error) => {
+            console.debug("deleteDraftReq:" + error);
+        });
     }
 }
