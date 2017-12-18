@@ -37,8 +37,8 @@ export class LoginPage {
 			loader.present();
 			if (success.User !== undefined && success.User.length === 1) {
 				let userInfo = new UserInfoData(success.User[0].id, 
-												success.User[0].name,
 												data.username,
+												success.User[0].name,
 												success.User[0].role)
 				this.userInfoService.setUserInfo(userInfo)
 				console.log("loginReq: success! -> " + userInfo.toJsonStr())

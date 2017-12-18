@@ -78,6 +78,10 @@ export const postListReq = () => fetch('post',
   {}, 'GET',
 );
 
+export const draftListReq = () => fetch('draftpost',
+{}, 'GET',
+);
+
 // review
 export const reviewListReq = () => fetch('review',
   {}, 'GET',

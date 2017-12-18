@@ -11,6 +11,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { SlidesPage } from '../pages/slides/slides';
 import { TravelNotesPage } from '../pages/notes/notes';
 import { PostPage } from '../pages/post/post';
+import { DraftsPage } from '../pages/drafts/drafts'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -29,7 +30,8 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     TabsPage,
     SlidesPage,
     TravelNotesPage,
-    PostPage
+    PostPage,
+    DraftsPage
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { TravelNotesService } from '../providers/TravelNotesService';
     TabsPage,
     SlidesPage,
     TravelNotesPage,
-    PostPage
+    PostPage,
+    DraftsPage
   ],
   providers: [
     StatusBar,
