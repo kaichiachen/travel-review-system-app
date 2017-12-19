@@ -47,11 +47,12 @@ export const reviewPostListReq = () => fetch('reviewpost',
 
 export const addReviewPostReq = postInfo => fetch('reviewpost',
   {
-    tile: postInfo.title,
+    title: postInfo.title,
     content: postInfo.content,
     submittime: postInfo.time,
     location: postInfo.location,
     author: postInfo.author,
+    submittime: postInfo.submittime,
     count: 0,
     status: 0,
     reviewnum: 0,

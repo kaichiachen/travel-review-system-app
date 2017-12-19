@@ -28,13 +28,11 @@ export class LoginPage {
   	});
 
   	login(data) {
+		let loader = this.loadingCtrl.create({
+			content: "Loading...",
+		});
+		loader.present();
 		loginReq(data.username, data.password).then((success) => {
-			/* eslint no-console: ["error", { allow: ["debug"] }] */
-			// console.debug(success.User);
-			let loader = this.loadingCtrl.create({
-				content: "Loading...",
-			});
-			loader.present();
 			if (success.User !== undefined && success.User.length === 1) {
 				let userInfo = new UserInfoData(success.User[0].id, 
 												data.username,
@@ -51,7 +49,6 @@ export class LoginPage {
 				this.showToast("登录失败！")
 			}
 		}, (error) => {
-			/* eslint no-console: ["error", { allow: ["debug"] }] */
 			console.debug("loginReq:" + error);
 			this.showToast(error)
 		});

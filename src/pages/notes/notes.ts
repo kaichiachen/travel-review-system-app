@@ -16,8 +16,9 @@ export class TravelNotesPage {
     ) {
         this.location = this.navParams.get('location')
         this.getNotes(this.location[1])
+        this.limit = 0
     }
-
+    limit: number
     location: string
     notes = []
     notesBuf: TravelNotesData[]

@@ -1,18 +1,35 @@
 <ion-header>
         <ion-navbar>
-          <ion-title>Notes</ion-title>
+            <ion-title>
+            <ion-icon name="document"></ion-icon>
+                Notes
+            </ion-title>
         </ion-navbar>
       </ion-header>
       
-    <ion-content padding class="card-background-page"> 
-        <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+    <ion-content padding class="card-background-page">
+        <ion-card>
+            <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+            <ion-item>
+            <ion-label>
+                <ion-icon name="time"></ion-icon>时间范围
+            </ion-label>
+                <ion-select [(ngModel)]="limit" interface="popover">
+                    <ion-option value=0>不限</ion-option>
+                    <ion-option value=1>一周内</ion-option>
+                    <ion-option value=2>一个月内</ion-option>
+                    <ion-option value=3>半年内</ion-option>
+                    <ion-option value=4>一年内</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-card>
         <ion-card *ngFor="let note of notes"  button (click)="push(note)">
             <ion-item>
                 <ion-avatar item-start>
                     <img src="../../assets/imgs/user.jpg">
                 </ion-avatar>
                 <h2>{{note.author}}</h2>
-                <p>{{note.submittime}}</p>
+                <p>{{note.submittime | date:'MMM d,y HH:mm'}}</p>
             </ion-item>
             <ion-card-header>{{note.title}}</ion-card-header>
             <ion-card-content>

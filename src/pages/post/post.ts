@@ -5,7 +5,7 @@ import { TravelNotesService } from '../../providers/TravelNotesService'
 import { UserInfoService } from '../../providers/UserInfoService';
 import { UserInfoData } from '../../model/UserInfoData';
 import { DraftData } from '../../model/TravelNotesData';
-import { addDraftPostReq, updateDraftPostReq } from '../../req/index'
+import { addDraftPostReq, updateDraftPostReq, deleteDraftReq, addReviewPostReq } from '../../req/index'
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { DraftsPage } from '../drafts/drafts';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
@@ -35,8 +35,10 @@ export class PostPage {
                 'content': [this.draftData.content, [Validators.required,]],
                 'location': [this.draftData.location, [Validators.required,]],
             });
+            this.isNewDraft = false
         }       
     }
+    isNewDraft = true
     draftData: DraftData
     date: Date
     userInfo: UserInfoData
@@ -49,7 +51,31 @@ export class PostPage {
         'location': ['纽约', [Validators.required,]],
     });
     post(){
-
+        let loader = this.loadingCtrl.create({
+			content: "Loading...",
+        });
+        this.date = new Date()
+        let draftData = new DraftData(  0, 
+                                        this.PostForm.value.title, 
+                                        this.PostForm.value.content, 
+                                        this.userInfo.name, 
+                                        this.userInfo.username,
+                                        this.PostForm.value.location,
+                                        this.date.getTime())
+        loader.present();
+        addReviewPostReq(draftData).then((success) => {
+            console.log("addDraftPostReq: success! -> " + draftData.title)
+            loader.dismiss()
+            if(!this.isNewDraft){
+                this.delete()
+            } 
+            else{
+                this.navCtrl.push(DraftsPage)
+            }
+		}, (error) => {
+            console.debug("addDraftPostReq:" + error);
+            loader.dismiss()
+		});
     }
     add(draftData: DraftData){
         let loader = this.loadingCtrl.create({
@@ -57,12 +83,10 @@ export class PostPage {
 		});
         loader.present();
         addDraftPostReq(draftData).then((success) => {
-			/* eslint no-console: ["error", { allow: ["debug"] }] */
             console.log("addDraftPostReq: success! -> " + draftData.title)
             loader.dismiss()
 			this.navCtrl.push(DraftsPage)
 		}, (error) => {
-			/* eslint no-console: ["error", { allow: ["debug"] }] */
             console.debug("addDraftPostReq:" + error);
             loader.dismiss()
 		});
@@ -74,12 +98,10 @@ export class PostPage {
         loader.present();
         draftData.id = this.draftData.id
         updateDraftPostReq(draftData).then((success) => {
-            /* eslint no-console: ["error", { allow: ["debug"] }] */
             console.log("updateDraftPostReq: success! -> " + draftData.title)
             loader.dismiss()
             this.navCtrl.push(DraftsPage)
         }, (error) => {
-            /* eslint no-console: ["error", { allow: ["debug"] }] */
             console.debug("updateDraftPostReq:" + error);
             loader.dismiss()
         });
@@ -99,5 +121,18 @@ export class PostPage {
         else{
             this.update(draftData)
         }
+    }
+    delete(){
+        let loader = this.loadingCtrl.create({
+            content: "Loading...",
+        });
+        loader.present();
+        deleteDraftReq(this.draftData.id).then((success) => {
+            console.log("deleteDraftReq: " + success)
+            loader.dismiss()
+            this.navCtrl.push(DraftsPage)
+        }, (error) => {
+            console.debug("deleteDraftReq:" + error);
+        });
     }
 }

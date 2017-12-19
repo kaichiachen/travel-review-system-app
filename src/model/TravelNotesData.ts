@@ -1,3 +1,5 @@
+import { state } from "@angular/core";
+
 export class TravelNotesData{
     constructor(
         id: number,
@@ -26,4 +28,26 @@ export class TravelNotesData{
 }
 export class DraftData extends TravelNotesData{
     
+}
+export class ReviewPostData extends TravelNotesData{
+    constructor(
+        id: number,
+        title: string,
+        content: string,
+        author: string,
+        username: string,
+        location: string,
+        submittime: number,
+        count: number,
+        status: number,
+        reviewnum: number,
+    ){
+        super(id, title, content, author, username, location, submittime)
+        this.count = count
+        this.status = status
+        this.reviewnum = reviewnum
+    }
+    count: number
+    status: number
+    reviewnum: number
 }

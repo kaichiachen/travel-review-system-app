@@ -29,6 +29,7 @@
         </ion-list>
         <button ion-button full color="primary" (click)="post()" [disabled]="!PostForm.valid">发布</button>
         <button ion-button full color="secondary" (click)="save()">储存</button>
+        <button ion-button full color="danger" (click)="delete()"  *ngIf="!isNewDraft">删除</button>
     </form>
 </ion-content>
             

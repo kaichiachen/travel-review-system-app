@@ -8,7 +8,18 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-list>
+    <ion-item-group>
+        <ion-item-divider color="light">待审核</ion-item-divider>
+            <button ion-item *ngFor="let item of listReviewPosts" (click)="pushReviewDraft(item)">
+                {{ item.title }}
+                <ion-note item-end>
+                    通过:{{ item.count }}, 不通过:{{ item.reviewnum - item.count }}
+                </ion-note>
+            </button>
+            
+    </ion-item-group>
+    <ion-item-group>
+        <ion-item-divider color="light">草稿</ion-item-divider>
         <ion-item-sliding *ngFor="let item of listDrafts" >
             <button ion-item (click)="updateDraft(item)">
                 {{ item.title }}
@@ -18,10 +29,8 @@
                     <ion-icon name="trash"></ion-icon>
                     删除
                 </button>
-        
             </ion-item-options>
         </ion-item-sliding>
-        
-    </ion-list>
+    </ion-item-group>
     <button ion-button full color="secondary" (click)="createDraft()">新建草稿</button>
 </ion-content>

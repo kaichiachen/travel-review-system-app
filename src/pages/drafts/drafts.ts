@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { NavController, LoadingController, ModalController } from 'ionic-angular';
-import { DraftData } from '../../model/TravelNotesData'
+import { DraftData, ReviewPostData } from '../../model/TravelNotesData'
 import { UserInfoService } from '../../providers/UserInfoService';
 import { LoginPage } from '../login/login'
-import { draftListReq, deleteDraftReq } from '../../req/index'
+import { draftListReq, deleteDraftReq, reviewPostListReq } from '../../req/index'
 import { PostPage } from '../post/post';
 
 @Component({
@@ -18,14 +18,15 @@ export class DraftsPage {
     ) {
         this.init()
     }
-    listDrafts = []
+    listDrafts: DraftData[]
+    listReviewPosts: ReviewPostData[]
     init(){
 		if(!this.refresh()){
 			let loginModal = this.modalCtrl.create(LoginPage);
 			loginModal.onDidDismiss(data => {
 				// console.log()
 				this.refresh()
-			  });
+			});
 			loginModal.present()
 		}
 	}
@@ -37,11 +38,11 @@ export class DraftsPage {
 			return false
 		}
 		console.log("Drafts: get userInfo -> " + userInfo.toJsonStr())
-        this.getDrafts(userInfo.username)
-		
+        this.getDrafts(userInfo.name)
+		this.getReviewPosts(userInfo.name)
 		return true
     }
-    getDrafts(username: string){
+    getDrafts(author: string){
         let datas = []
         draftListReq().then((success) => {
             let loader = this.loadingCtrl.create({
@@ -50,7 +51,7 @@ export class DraftsPage {
             loader.present();
             console.log("draftListReq: " + success.Draftpost)
             for(let i in success.Draftpost){
-                if(success.Draftpost[i].username == username){
+                if(success.Draftpost[i].author == author){
                     let data = new DraftData(success.Draftpost[i].id, success.Draftpost[i].title, 
                                                 success.Draftpost[i].content,success.Draftpost[i].author, 
                                                 success.Draftpost[i].username,success.Draftpost[i].location, 
@@ -62,6 +63,31 @@ export class DraftsPage {
             loader.dismiss()
         }, (error) => {
             console.debug("draftListReq:" + error);
+        });
+    }
+    getReviewPosts(author: string){
+        let datas = []
+        reviewPostListReq().then((success) => {
+            let loader = this.loadingCtrl.create({
+            content: "Loading...",
+            });
+            loader.present();
+            console.log("reviewPostListReq: " + success.Reviewpost)
+            for(let i in success.Reviewpost){
+                if(success.Reviewpost[i].author == author){
+                    let data = new ReviewPostData(success.Reviewpost[i].id, success.Reviewpost[i].title, 
+                                                success.Reviewpost[i].content,success.Reviewpost[i].author, 
+                                                "",success.Reviewpost[i].location, 
+                                                0,
+                                                success.Reviewpost[i].count, success.Reviewpost[i].status,
+                                                success.Reviewpost[i].reviewnum)
+                    datas.push(data)
+                }
+            }
+            this.listReviewPosts = datas
+            loader.dismiss()
+        }, (error) => {
+            console.debug("reviewPostListReq:" + error);
         });
     }
     deleteDraft(draft: DraftData){
@@ -86,5 +112,8 @@ export class DraftsPage {
     }
     updateDraft(draftData: DraftData){
         this.navCtrl.push(PostPage, {'draftData': draftData})
+    }
+    pushReviewDraft(reviewPost: ReviewPostData){
+
     }
 }
