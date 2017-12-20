@@ -49,7 +49,7 @@ export const addReviewPostReq = postInfo => fetch('reviewpost',
   {
     title: postInfo.title,
     content: postInfo.content,
-    submittime: postInfo.time,
+    // submittime: postInfo.time,
     location: postInfo.location,
     author: postInfo.author,
     submittime: postInfo.submittime,

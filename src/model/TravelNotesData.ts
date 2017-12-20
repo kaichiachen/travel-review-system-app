@@ -1,5 +1,3 @@
-import { state } from "@angular/core";
-
 export class TravelNotesData{
     constructor(
         id: number,

@@ -9,7 +9,6 @@ import { addDraftPostReq, updateDraftPostReq, deleteDraftReq, addReviewPostReq }
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 import { DraftsPage } from '../drafts/drafts';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
-import { FormGroup } from '@angular/forms/src/model';
 import { kmp } from '../../algorithm/kpm'
 
 @Component({

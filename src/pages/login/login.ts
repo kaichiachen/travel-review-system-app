@@ -33,11 +33,11 @@ export class LoginPage {
 		});
 		loader.present();
 		loginReq(data.username, data.password).then((success) => {
-			if (success.User !== undefined && success.User.length === 1) {
-				let userInfo = new UserInfoData(success.User[0].id, 
+			if (success['User'] !== undefined && success['User'].length === 1) {
+				let userInfo = new UserInfoData(success['User'][0].id, 
 												data.username,
-												success.User[0].name,
-												success.User[0].role)
+												success['User'][0].name,
+												success['User'][0].role)
 				this.userInfoService.setUserInfo(userInfo)
 				console.log("loginReq: success! -> " + userInfo.toJsonStr())
 				loader.dismiss()

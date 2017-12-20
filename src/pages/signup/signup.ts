@@ -41,11 +41,11 @@ export class SignUpPage {
 			pwd: this.signUpForm.value.password,
 			role: 3,
 		}).then((success) => {
-			if (success !== null && success.id != null) {
-				let userInfo = new UserInfoData(success.id, 
-												success.name,
-												success.username,
-												success.role)
+			if (success !== null && success['id'] != null) {
+				let userInfo = new UserInfoData(success['id'], 
+												success['name'],
+												success['username'],
+												success['role'])
 				this.userInfoService.setUserInfo(userInfo)
 				loader.dismiss()
 				this.navCtrl.push(TabsPage)

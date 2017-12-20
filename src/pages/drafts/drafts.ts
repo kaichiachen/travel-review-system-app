@@ -49,12 +49,12 @@ export class DraftsPage {
             content: "Loading...",
             });
             loader.present();
-            console.log("draftListReq: " + success.Draftpost)
-            for(let i in success.Draftpost){
-                if(success.Draftpost[i].author == author){
-                    let data = new DraftData(success.Draftpost[i].id, success.Draftpost[i].title, 
-                                                success.Draftpost[i].content,success.Draftpost[i].author, 
-                                                success.Draftpost[i].username,success.Draftpost[i].location, 
+            console.log("draftListReq: " + success['Draftpost'])
+            for(let i in success['Draftpost']){
+                if(success['Draftpost'][i].author == author){
+                    let data = new DraftData(success['Draftpost'][i].id, success['Draftpost'][i].title, 
+                                                success['Draftpost'][i].content,success['Draftpost'][i].author, 
+                                                success['Draftpost'][i].username,success['Draftpost'][i].location, 
                                                 0)
                     datas.push(data)
                 }
@@ -72,15 +72,15 @@ export class DraftsPage {
             content: "Loading...",
             });
             loader.present();
-            console.log("reviewPostListReq: " + success.Reviewpost)
-            for(let i in success.Reviewpost){
-                if(success.Reviewpost[i].author == author){
-                    let data = new ReviewPostData(success.Reviewpost[i].id, success.Reviewpost[i].title, 
-                                                success.Reviewpost[i].content,success.Reviewpost[i].author, 
-                                                "",success.Reviewpost[i].location, 
+            console.log("reviewPostListReq: " + success['Reviewpost'])
+            for(let i in success['Reviewpost']){
+                if(success['Reviewpost'][i].author == author){
+                    let data = new ReviewPostData(success['Reviewpost'][i].id, success['Reviewpost'][i].title, 
+                                                success['Reviewpost'][i].content,success['Reviewpost'][i].author, 
+                                                "",success['Reviewpost'][i].location, 
                                                 0,
-                                                success.Reviewpost[i].count, success.Reviewpost[i].status,
-                                                success.Reviewpost[i].reviewnum)
+                                                success['Reviewpost'][i].count, success['Reviewpost'][i].status,
+                                                success['Reviewpost'][i].reviewnum)
                     datas.push(data)
                 }
             }

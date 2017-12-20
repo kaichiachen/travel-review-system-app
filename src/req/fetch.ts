@@ -3,11 +3,11 @@ import baseUrl from './env';
 export default async (router = '', data = {}, method = 'GET', type = 'json') => {
   const reqMethod = method.toUpperCase();
   const reqUrl = baseUrl + router;
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
   const requestConfig = {
     method: reqMethod,
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: headers,
   };
   if (type === 'json') {
     if (method === 'POST' || method === 'PUT') {

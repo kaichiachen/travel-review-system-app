@@ -38,12 +38,12 @@ export class TravelNotesPage {
             });
             loader.present();
         postListReq().then((success) => {
-            // console.log("postListReq" + success.Post)
-            for(let i in success.Post){
-                if(success.Post[i].location == location){
-                    let data = new TravelNotesData(success.Post[i].id, success.Post[i].title, success.Post[i].content,
-                                                    success.Post[i].author, null, success.Post[i].location, 
-                                                    success.Post[i].submittime)
+            // console.log("postListReq" + success['Post'])
+            for(let i in success['Post']){
+                if(success['Post'][i].location == location){
+                    let data = new TravelNotesData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
+                                                    success['Post'][i].author, null, success['Post'][i].location, 
+                                                    success['Post'][i].submittime)
                     datas.push(data)
                 }
             }
