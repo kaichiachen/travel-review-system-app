@@ -33,11 +33,11 @@ export class TravelNotesPage {
 
     getNotes(location: string){
         let datas = []
-        postListReq().then((success) => {
-            let loader = this.loadingCtrl.create({
+        let loader = this.loadingCtrl.create({
             content: "Loading...",
             });
             loader.present();
+        postListReq().then((success) => {
             // console.log("postListReq" + success.Post)
             for(let i in success.Post){
                 if(success.Post[i].location == location){
@@ -48,7 +48,12 @@ export class TravelNotesPage {
                 }
             }
             this.notesBuf = datas
-            this.bst = makeBST(this.notesBuf);
+            if(this.notesBuf.length != 0){
+                this.bst = makeBST(this.notesBuf);
+            }
+            else{
+                this.bst = []
+            }
             this.pushNotes()
             loader.dismiss()
         }, (error) => {

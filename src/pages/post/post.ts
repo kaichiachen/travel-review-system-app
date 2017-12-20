@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController } from 'ionic-angular';
 import { FormBuilder, Validators } from '@angular/forms'
 import { TravelNotesService } from '../../providers/TravelNotesService'
 import { UserInfoService } from '../../providers/UserInfoService';
@@ -10,6 +10,7 @@ import { LoadingController } from 'ionic-angular/components/loading/loading-cont
 import { DraftsPage } from '../drafts/drafts';
 import { NavParams } from 'ionic-angular/navigation/nav-params';
 import { FormGroup } from '@angular/forms/src/model';
+import { kmp } from '../../algorithm/kpm'
 
 @Component({
 	selector: 'page-post',
@@ -24,6 +25,7 @@ export class PostPage {
         public userInfoService: UserInfoService,
         public loadingCtrl: LoadingController,
         public navParams: NavParams,
+        public toastCtrl: ToastController,
 	) {
         
         this.locations = this.travelNotesService.getLocation()
@@ -36,8 +38,9 @@ export class PostPage {
                 'location': [this.draftData.location, [Validators.required,]],
             });
             this.isNewDraft = false
-        }       
+        }
     }
+    senstiveWords = ["低端人口", "上海交通大学的国家领导人"]
     isNewDraft = true
     draftData: DraftData
     date: Date
@@ -51,6 +54,15 @@ export class PostPage {
         'location': ['纽约', [Validators.required,]],
     });
     post(){
+        let text = this.checkContent(this.draftData.content)
+        if(text != null){
+            this.PostForm = this.formBuilder.group({
+                'title': [this.draftData.title, [Validators.required,]],
+                'content': [text, [Validators.required,]],
+                'location': [this.draftData.location, [Validators.required,]],
+            });
+            return
+        }
         let loader = this.loadingCtrl.create({
 			content: "Loading...",
         });
@@ -78,6 +90,15 @@ export class PostPage {
 		});
     }
     add(draftData: DraftData){
+        let text = this.checkContent(draftData.content)
+        if(text != null){
+            this.PostForm = this.formBuilder.group({
+                'title': [this.draftData.title, [Validators.required,]],
+                'content': [text, [Validators.required,]],
+                'location': [this.draftData.location, [Validators.required,]],
+            });
+            return
+        }
         let loader = this.loadingCtrl.create({
 			content: "Loading...",
 		});
@@ -92,13 +113,22 @@ export class PostPage {
 		});
     }
     update(draftData: DraftData){
+        let text = this.checkContent(draftData.content)
+        if(text != null){
+            this.PostForm = this.formBuilder.group({
+                'title': [this.draftData.title, [Validators.required,]],
+                'content': [text, [Validators.required,]],
+                'location': [this.draftData.location, [Validators.required,]],
+            });
+            return
+        }
         let loader = this.loadingCtrl.create({
             content: "Loading...",
         });
         loader.present();
         draftData.id = this.draftData.id
         updateDraftPostReq(draftData).then((success) => {
-            console.log("updateDraftPostReq: success! -> " + draftData.title)
+            console.log("updateDraftPostReq: success! -> " + draftData.content)
             loader.dismiss()
             this.navCtrl.push(DraftsPage)
         }, (error) => {
@@ -135,4 +165,41 @@ export class PostPage {
             console.debug("deleteDraftReq:" + error);
         });
     }
+    checkContent(text: string): string{
+        let alert = ""
+        for(let i in this.senstiveWords){
+            let result = kmp(text, this.senstiveWords[i])
+            if(result.length != 0){
+                console.log("here1!!")
+                alert += this.senstiveWords[i] + ", "
+                for(let j in result){
+                    text = this.replaceStr(text, this.senstiveWords[i], result[j])
+                }
+            }
+        }
+        if(alert.length == 0){
+            return null
+        }
+        else{
+            this.showToast("发现敏感词: " + alert.substr(0, alert.length - 2))
+            return text
+        }
+        
+    }
+    replaceStr(target: string, str: string, index: number): string{
+        let saveWord = "*"
+        for(let i = 1; i < str.length; i++){
+            saveWord += "*"
+        }
+        console.log("replace: " + str + " in " + index)
+        return target.substr(0, index) + saveWord + target.substr(index + str.length, target.length - index + str.length)
+    }
+    showToast(text: string) {
+		let toast = this.toastCtrl.create({
+			message: text,
+			duration: 2000,
+			position: 'middle'
+    	});
+		toast.present(toast);
+	}
 }
