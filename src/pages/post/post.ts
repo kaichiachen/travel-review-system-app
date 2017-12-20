@@ -53,12 +53,12 @@ export class PostPage {
         'location': ['纽约', [Validators.required,]],
     });
     post(){
-        let text = this.checkContent(this.draftData.content)
+        let text = this.checkContent(this.PostForm.value.content)
         if(text != null){
             this.PostForm = this.formBuilder.group({
-                'title': [this.draftData.title, [Validators.required,]],
+                'title': [this.PostForm.value.content, [Validators.required,]],
                 'content': [text, [Validators.required,]],
-                'location': [this.draftData.location, [Validators.required,]],
+                'location': [this.PostForm.value.content, [Validators.required,]],
             });
             return
         }
