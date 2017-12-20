@@ -15,11 +15,10 @@
                 <ion-icon name="time"></ion-icon>时间范围
             </ion-label>
                 <ion-select [(ngModel)]="limit" interface="popover">
-                    <ion-option value=0>不限</ion-option>
-                    <ion-option value=1>一周内</ion-option>
-                    <ion-option value=2>一个月内</ion-option>
-                    <ion-option value=3>半年内</ion-option>
-                    <ion-option value=4>一年内</ion-option>
+                    <ion-option value=0 (ionSelect)="doLimit(0)">不限</ion-option>
+                    <ion-option value=1 (ionSelect)="doLimit(1)">一周内</ion-option>
+                    <ion-option value=2 (ionSelect)="doLimit(2)">一个月内</ion-option>
+                    <ion-option value=3 (ionSelect)="doLimit(3)">一年内</ion-option>
                 </ion-select>
             </ion-item>
         </ion-card>

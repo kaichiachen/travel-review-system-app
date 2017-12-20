@@ -32,6 +32,17 @@ export const timeConverter = (UNIXtimestamp) => {
   return time;
 };
 
+// export class TreeNode{
+//   val = {}
+//   left = TreeNode
+//   right = TreeNode
+//   constructor(){
+//     this.val = null;
+//     this.left = null;
+//     this.right = null;
+//   }
+  
+// }
 const TreeNode = () => {
   this.val = null;
   this.left = null;
@@ -39,7 +50,7 @@ const TreeNode = () => {
 };
 
 const sortListToBST = (postinfo) => {
-  const middleIndex = parseInt(postinfo.length / 2, 0);
+  const middleIndex = parseInt((postinfo.length / 2).toString(), 0);
   const n = new TreeNode();
   n.val = postinfo[middleIndex];
   if (middleIndex === 0) {
@@ -58,7 +69,7 @@ const sortListToBST = (postinfo) => {
 /* eslint arrow-body-style: ["error", "always"] */
 export const makeBST = (postinfo) => {
   return sortListToBST(postinfo.sort((a, b) => {
-    return a.submittime > b.submittime;
+    return a.submittime < b.submittime;
   }));
 };
 
@@ -83,16 +94,30 @@ const getPostList = (postList, postBST, searchtime) => {
   getPostList(postList, postBST.Right, searchtime);
 };
 
-export const findPost = (postBST, searchtime, searchString) => {
+// export const findPost = (postBST, searchtime, searchString) => {
+//   const postList = [];
+//   if (postBST === null) {
+//     return [];
+//   }
+//   postList.push(...findPost(postBST.right, searchtime, searchString));
+//   /* eslint no-console: ["error", { allow: ["debug"] }] */
+//   if (searchtime <= postBST.val.submittime && (searchString === '' || searchString === postBST.val.title || searchString === postBST.val.location)) {
+//     postList.push(postBST.val);
+//   }
+//   postList.push(...findPost(postBST.left, searchtime, searchString));
+//   return postList;
+// };
+
+export const findPost = (postBST, searchtime) => {
   const postList = [];
   if (postBST === null) {
     return [];
   }
-  postList.push(...findPost(postBST.right, searchtime, searchString));
+  postList.push(...findPost(postBST.right, searchtime));
   /* eslint no-console: ["error", { allow: ["debug"] }] */
-  if (searchtime <= postBST.val.submittime && (searchString === '' || searchString === postBST.val.title || searchString === postBST.val.location)) {
+  if (searchtime <= postBST.val.submittime) {
     postList.push(postBST.val);
   }
-  postList.push(...findPost(postBST.left, searchtime, searchString));
+  postList.push(...findPost(postBST.left, searchtime));
   return postList;
 };
