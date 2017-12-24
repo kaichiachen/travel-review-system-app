@@ -34,6 +34,12 @@ export class LoginPage {
 		loader.present();
 		loginReq(data.username, data.password).then((success) => {
 			if (success['User'] !== undefined && success['User'].length === 1) {
+				if(success['User'][0].role !== 3){
+					console.log("loginReq: wrong authority!")
+					loader.dismiss()
+					this.showToast("评审人员请用Web端登陆！")
+					return
+				}
 				let userInfo = new UserInfoData(success['User'][0].id, 
 												data.username,
 												success['User'][0].name,
@@ -43,7 +49,8 @@ export class LoginPage {
 				loader.dismiss()
 				this.dismiss()
 				// this.navCtrl.push(TabsPage);
-			} else {
+			} 
+			else {
 				console.log("loginReq: fail!")
 				loader.dismiss()
 				this.showToast("登录失败！")
