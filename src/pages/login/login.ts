@@ -23,8 +23,8 @@ export class LoginPage {
   	) { }
 
   	loginForm = this.formBuilder.group({
-		'username': ['wzx', [Validators.required,]],// 第一个参数是默认值
-		'password': ['wzx', [Validators.required,]]
+		'username': ['', [Validators.required,]],// 第一个参数是默认值
+		'password': ['', [Validators.required,]]
   	});
 
   	login(data) {
