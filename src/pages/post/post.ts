@@ -54,9 +54,9 @@ export class PostPage {
         let text = this.checkContent(this.PostForm.value.content)
         if(text != null){
             this.PostForm = this.formBuilder.group({
-                'title': [this.PostForm.value.content, [Validators.required,]],
+                'title': [this.PostForm.value.title, [Validators.required,]],
                 'content': [text, [Validators.required,]],
-                'location': [this.PostForm.value.content, [Validators.required,]],
+                'location': [this.PostForm.value.location, [Validators.required,]],
             });
             return
         }
@@ -90,9 +90,9 @@ export class PostPage {
         let text = this.checkContent(draftData.content)
         if(text != null){
             this.PostForm = this.formBuilder.group({
-                'title': [this.draftData.title, [Validators.required,]],
+                'title': [this.PostForm.value.title, [Validators.required,]],
                 'content': [text, [Validators.required,]],
-                'location': [this.draftData.location, [Validators.required,]],
+                'location': [this.PostForm.value.location, [Validators.required,]],
             });
             return
         }
