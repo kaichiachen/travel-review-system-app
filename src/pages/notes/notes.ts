@@ -17,11 +17,13 @@ export class TravelNotesPage {
         this.getNotes(this.location[1])
         
     }
+    // infinity = true
     limit = 0
     bst: any
     location: string
     notes = []
     notesBuf: TravelNotesData[]
+    notesOri: TravelNotesData[]
     window = 1
     bufIndex = 0
 
@@ -48,6 +50,7 @@ export class TravelNotesPage {
                 }
             }
             this.notesBuf = datas
+            this.notesOri = datas
             if(this.notesBuf.length != 0){
                 this.bst = makeBST(this.notesBuf);
             }
@@ -70,6 +73,10 @@ export class TravelNotesPage {
     }
 
     doInfinite(infiniteScroll){
+        // if(!this.infinity){
+        //     infiniteScroll.complete();
+        //     return
+        // }
         setTimeout(() => {
             console.log('Do infinite.');
             this.pushNotes()
@@ -88,12 +95,32 @@ export class TravelNotesPage {
     
         // set val to the value of the searchbar
         let val = ev.target.value;
-    
+        if(val == ""){
+            this.notesBuf = this.notesOri
+            this.notes = []
+            this.bufIndex = 0
+            this.pushNotes()
+            if(this.notesBuf.length != 0){
+                this.bst = makeBST(this.notesBuf);
+            }
+            else{
+                this.bst = []
+            }
+        }
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
-            this.notes = this.notesBuf.filter((item) => {
-                return (item.title.indexOf(val.toLowerCase()) > -1);
+            this.notesBuf = this.notesOri.filter((item) => {
+                return (item.title.indexOf(val) > -1);
             })
+            this.notes = []
+            this.bufIndex = 0
+            this.pushNotes()
+            if(this.notesBuf.length != 0){
+                this.bst = makeBST(this.notesBuf);
+            }
+            else{
+                this.bst = []
+            }
         }
     }
     doLimit(opt: number){
