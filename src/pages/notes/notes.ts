@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController } from 'ionic-angular';
-import { TravelNotesData } from '../../model/TravelNotesData'
-import { postListReq } from '../../req/index'
+import { PostData } from '../../model/TravelNotesData'
+import { LikeData } from '../../model/LikeData'
+import { postListReq, zanListReq, updateZanReq } from '../../req/index'
 import { makeBST, findPost } from '../../algorithm/bst'
 
 @Component({
@@ -15,37 +16,60 @@ export class TravelNotesPage {
     ) {
         this.location = this.navParams.get('location')
         this.getNotes(this.location[1])
-        
+        this.loader = this.loadingCtrl.create({
+            content: "Loading...",
+        });
+        this.likeMap = new Map()
+        this.searchType = 0
+        this.show = true
     }
     // infinity = true
     limit = 0
     bst: any
     location: string
     notes = []
-    notesBuf: TravelNotesData[]
-    notesOri: TravelNotesData[]
+    notesBuf: PostData[]
+    notesOri: PostData[]
     window = 1
     bufIndex = 0
+    likeMap: Map<number, LikeData>
+    loader: any
+    likeColor: string[]
+    searchType: number
+    show: boolean
 
-    push(note: TravelNotesData){
+    push(note: PostData){
         console.log(note)
     
     }
     
-
-    getNotes(location: string){
+    getLikeList(location: string){
+        zanListReq().then((success) => {
+            // console.log("zanListReq" + success['Zan'])
+            for(let i in success['Zan']){
+                let data = new LikeData(success['Zan'][i].id, success['Zan'][i].postid, 
+                                        success['Zan'][i].zan, success['Zan'][i].read)
+                this.likeMap.set(success['Zan'][i].postid, data)
+            }
+            this.getNotesList(location)
+        }, (error) => {
+            console.debug("zanListReq:" + error);
+        });
+    }
+    getNotesList(location: string){
         let datas = []
-        let loader = this.loadingCtrl.create({
-            content: "Loading...",
-            });
-            loader.present();
+        this.loader.present();
         postListReq().then((success) => {
             // console.log("postListReq" + success['Post'])
             for(let i in success['Post']){
                 if(success['Post'][i].location == location){
-                    let data = new TravelNotesData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
+                    let likeData = this.likeMap.get(success['Post'][i].id)
+                    if(likeData == undefined){
+                        likeData = new LikeData(0, 0, -1, -1)
+                    }
+                    let data = new PostData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
                                                     success['Post'][i].author, null, success['Post'][i].location, 
-                                                    success['Post'][i].submittime)
+                                                    success['Post'][i].submittime, false, likeData.zan, likeData.read, likeData.zanid)
                     datas.push(data)
                 }
             }
@@ -58,10 +82,13 @@ export class TravelNotesPage {
                 this.bst = []
             }
             this.pushNotes()
-            loader.dismiss()
+            this.loader.dismiss()
         }, (error) => {
-            console.debug("loginReq:" + error);
+            console.debug("postListReq:" + error);
         });
+    }
+    getNotes(location: string){
+        this.getLikeList(location) // Get like list first.
     }
 
     pushNotes(){
@@ -144,4 +171,40 @@ export class TravelNotesPage {
         this.bufIndex = 0
         this.pushNotes()
     }
+    doLike(note: PostData){
+        note.islike = true
+        note.zan += 1
+        console.log(note.zanid)
+        updateZanReq(note).then((success) => {
+            
+        }, (error) => {
+            console.debug("updateZanReq:" + error);
+        });
+    }
+    doSearchLimit(opt: number){
+        console.log(this.searchType)
+        if(opt == 0){
+            this.show = true
+        }
+        else{
+            this.show = false
+        }
+        switch(opt){
+            case 0:
+            this.show = true
+            break
+            case 1:
+            this.doHotLimit()
+            break
+        }
+    }
+    doHotLimit(){
+        this.notesBuf = this.notesOri.sort(this.compareFunc)
+        this.notes = []
+        this.bufIndex = 0
+        this.pushNotes()
+    }
+    compareFunc(a: PostData, b: PostData) {
+        return (((b.zan * 0.8) + (b.read * 0.2)) - ((a.zan * 0.8) + (a.read * 0.2)));
+      }
 }

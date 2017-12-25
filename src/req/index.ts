@@ -108,3 +108,27 @@ export const updateReviewReq = reviewInfo => fetch('review',
 export const deleteReviewReq = reviewid => fetch(`review/${reviewid}`,
   {}, 'DELETE',
 );
+
+export const zanListReq = () => fetch('zan',
+  {}, 'GET',
+);
+
+export const addZanReq = postInfo => fetch('zan',
+  {
+    postid: postInfo.postid,
+    zan: postInfo.zan,
+    read: postInfo.read,
+  }, 'POST',
+);
+
+export const updateZanReq = zanInfo => fetch(`zan/${zanInfo.zanid}`,
+  {
+    postid: zanInfo.id,
+    zan: zanInfo.zan,
+    read: zanInfo.read,
+  }, 'PUT',
+);
+
+export const deleteZanReq = reviewid => fetch(`zan/${reviewid}`,
+  {}, 'DELETE',
+);

@@ -11,10 +11,13 @@
         <ion-card>
             <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
             <ion-item>
-            <ion-label>
-                <ion-icon name="time"></ion-icon>时间范围
-            </ion-label>
-                <ion-select [(ngModel)]="limit" interface="popover">
+                <ion-select [(ngModel)]="searchType" interface="popover" item-middle>
+                    <ion-option value=0 (ionSelect)="doSearchLimit(0)">时间排序</ion-option>
+                    <ion-option value=1 (ionSelect)="doSearchLimit(1)">综合排序</ion-option>
+                </ion-select>
+            </ion-item>   
+            <ion-item>
+                <ion-select *ngIf="show" [(ngModel)]="limit" interface="popover">
                     <ion-option value=0 (ionSelect)="doLimit(0)">不限</ion-option>
                     <ion-option value=1 (ionSelect)="doLimit(1)">一周内</ion-option>
                     <ion-option value=2 (ionSelect)="doLimit(2)">一个月内</ion-option>
@@ -22,7 +25,7 @@
                 </ion-select>
             </ion-item>
         </ion-card>
-        <ion-card *ngFor="let note of notes"  button (click)="push(note)">
+        <ion-card *ngFor="let note of notes">
             <ion-item>
                 <ion-avatar item-start>
                     <img src="../../assets/imgs/user.jpg">
@@ -31,9 +34,23 @@
                 <p>{{note.submittime | date:'MMM d,y HH:mm'}}</p>
             </ion-item>
             <ion-card-header>{{note.title}}</ion-card-header>
-            <ion-card-content>
+            <ion-card-content button (click)="push(note)">
                 {{note.content}}
             </ion-card-content>
+            <ion-col>
+                <button *ngIf="note.islike" ion-button color="primary" clear small icon-start>
+                    <ion-icon name='thumbs-up'></ion-icon>
+                    {{note.zan}} 赞
+                </button>
+                <button *ngIf="!note.islike" ion-button color="dark" clear small icon-start (click)="doLike(note)">
+                    <ion-icon name='thumbs-up'></ion-icon>
+                    {{note.zan}} 赞
+                </button>
+                <button ion-button color="dark" clear small icon-start>
+                    <ion-icon name='book'></ion-icon>
+                    {{note.read}} 阅读量
+                </button>
+            </ion-col>
         </ion-card>
         <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
             <ion-infinite-scroll-content></ion-infinite-scroll-content>

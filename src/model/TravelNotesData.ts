@@ -6,7 +6,7 @@ export class TravelNotesData{
         author: string,
         username: string,
         location: string,
-        submittime: number
+        submittime: number,
     ){
         this.id = id
         this.title = title
@@ -25,7 +25,7 @@ export class TravelNotesData{
     submittime: number
 }
 export class DraftData extends TravelNotesData{
-    
+
 }
 export class ReviewPostData extends TravelNotesData{
     constructor(
@@ -48,4 +48,29 @@ export class ReviewPostData extends TravelNotesData{
     count: number
     status: number
     reviewnum: number
+}
+export class PostData extends TravelNotesData{
+    constructor(
+        id: number,
+        title: string,
+        content: string,
+        author: string,
+        username: string,
+        location: string,
+        submittime: number,
+        islike: boolean,
+        zan: number,
+        read: number,
+        zanid: number,
+    ){
+        super(id, title, content, author, username, location, submittime)
+        this.islike = islike
+        this.zan = zan
+        this.read = read
+        this.zanid = zanid
+    }
+    islike: boolean
+    zan: number
+    read: number
+    zanid: number
 }
