@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { PostData } from '../../model/TravelNotesData'
 import { LikeData } from '../../model/LikeData'
 import { postListReq, zanListReq, updateZanReq } from '../../req/index'
 import { makeBST, findPost } from '../../algorithm/bst'
+import { NotePage } from '../note/note'
 
 @Component({
   templateUrl: 'notes.html'
@@ -12,7 +13,8 @@ export class TravelNotesPage {
     constructor(
         public navCtrl: NavController,
         public navParams: NavParams,
-        public loadingCtrl: LoadingController
+        public loadingCtrl: LoadingController,
+        public modalCtrl: ModalController
     ) {
         this.location = this.navParams.get('location')
         this.getNotes(this.location[1])
@@ -38,8 +40,17 @@ export class TravelNotesPage {
     searchType: number
     show: boolean
 
-    push(note: PostData){
-        console.log(note)
+    pushNote(note: PostData){
+        let noteModal = this.modalCtrl.create(NotePage, {'note': note});
+		noteModal.onDidDismiss(data => {
+            console.log(data.zanid)
+            updateZanReq(data).then((success) => {
+            
+            }, (error) => {
+                console.debug("updateZanReq:" + error);
+            });
+		});
+		noteModal.present()
     
     }
     

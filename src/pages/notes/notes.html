@@ -34,7 +34,7 @@
                 <p>{{note.submittime | date:'MMM d,y HH:mm'}}</p>
             </ion-item>
             <ion-card-header>{{note.title}}</ion-card-header>
-            <ion-card-content button (click)="push(note)">
+            <ion-card-content button (click)="pushNote(note)">
                 {{note.content}}
             </ion-card-content>
             <ion-col>

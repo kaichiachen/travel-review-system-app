@@ -1,0 +1,44 @@
+<ion-header>
+        <ion-navbar>
+            <ion-title>
+                    {{note.title}}
+            </ion-title>
+            <ion-buttons start>
+                <button ion-button (click)="dismiss()">
+                    <span ion-text color="primary" showWhen="ios">返回</span>
+                    <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+                </button>
+            </ion-buttons>
+        </ion-navbar>
+      </ion-header>
+      
+    <ion-content padding class="card-background-page">
+        <ion-card>
+            <ion-item>
+                <ion-avatar item-start>
+                    <img src="../../assets/imgs/user.jpg">
+                </ion-avatar>
+                <h2>{{note.author}}</h2>
+                <p>{{note.submittime | date:'MMM d,y HH:mm'}}</p>
+            </ion-item>
+            <!-- <ion-card-header>{{note.title}}</ion-card-header> -->
+            <ion-card-content button (click)="push(note)">
+                {{note.content}}
+            </ion-card-content>
+            <ion-col>
+                <button *ngIf="note.islike" ion-button color="primary" clear small icon-start>
+                    <ion-icon name='thumbs-up'></ion-icon>
+                    {{note.zan}} 赞
+                </button>
+                <button *ngIf="!note.islike" ion-button color="dark" clear small icon-start (click)="doLike(note)">
+                    <ion-icon name='thumbs-up'></ion-icon>
+                    {{note.zan}} 赞
+                </button>
+                <button ion-button color="dark" clear small icon-start>
+                    <ion-icon name='book'></ion-icon>
+                    {{note.read}} 阅读量
+                </button>
+            </ion-col>
+        </ion-card>
+    </ion-content>
+      
