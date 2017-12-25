@@ -73,4 +73,5 @@ export class PostData extends TravelNotesData{
     zan: number
     read: number
     zanid: number
+    abstract: string
 }

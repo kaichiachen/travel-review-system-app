@@ -32,7 +32,7 @@ export class TravelNotesPage {
     notes = []
     notesBuf: PostData[]
     notesOri: PostData[]
-    window = 1
+    window = 3
     bufIndex = 0
     likeMap: Map<number, LikeData>
     loader: any
@@ -107,6 +107,7 @@ export class TravelNotesPage {
             // console.log(this.bufIndex)
             // console.log(this.notesBuf[this.bufIndex])
             this.notes.push(this.notesBuf[this.bufIndex])
+            this.notes[this.notes.length - 1].abstract = (this.notes[this.notes.length - 1].content.substr(0, 200) + "......")
         }
     }
 

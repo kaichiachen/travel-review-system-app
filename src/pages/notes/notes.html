@@ -35,7 +35,7 @@
             </ion-item>
             <ion-card-header>{{note.title}}</ion-card-header>
             <ion-card-content button (click)="pushNote(note)">
-                {{note.content}}
+                {{note.abstract}}
             </ion-card-content>
             <ion-col>
                 <button *ngIf="note.islike" ion-button color="primary" clear small icon-start>
