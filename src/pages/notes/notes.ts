@@ -65,7 +65,7 @@ export class TravelNotesPage {
                 if(success['Post'][i].location == location){
                     let likeData = this.likeMap.get(success['Post'][i].id)
                     if(likeData == undefined){
-                        likeData = new LikeData(0, 0, -1, -1)
+                        likeData = new LikeData(0, 0, 0, 0)
                     }
                     let data = new PostData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
                                                     success['Post'][i].author, null, success['Post'][i].location, 
