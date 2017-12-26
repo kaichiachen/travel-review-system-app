@@ -193,6 +193,16 @@ export class TravelNotesPage {
             console.debug("updateZanReq:" + error);
         });
     }
+    doDislike(note: PostData){
+        note.islike = false
+        note.zan -= 1
+        console.log(note.zanid)
+        updateZanReq(note).then((success) => {
+            
+        }, (error) => {
+            console.debug("updateZanReq:" + error);
+        });
+    }
     doSearchLimit(opt: number){
         console.log(this.searchType)
         if(opt == 0){

@@ -38,7 +38,7 @@
                 {{note.abstract}}
             </ion-card-content>
             <ion-col>
-                <button *ngIf="note.islike" ion-button color="primary" clear small icon-start>
+                <button *ngIf="note.islike" ion-button color="primary" clear small icon-start (click)="doDislike(note)">
                     <ion-icon name='thumbs-up'></ion-icon>
                     {{note.zan}} 赞
                 </button>
