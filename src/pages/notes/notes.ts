@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, LoadingController, ModalController } from 'ionic-angular';
 import { PostData } from '../../model/TravelNotesData'
 import { LikeData } from '../../model/LikeData'
-import { postListReq, zanListReq, updateZanReq } from '../../req/index'
+import { postListReq, zanListReq, updateZanReq, zanInfoReq, addZanInfoReq, deleteZanInfoReq } from '../../req/index'
 import { makeBST, findPost } from '../../algorithm/bst'
 import { NotePage } from '../note/note'
+import { UserInfoService } from '../../providers/UserInfoService';
+import { UserInfoData } from '../../model/UserInfoData';
 
 @Component({
   templateUrl: 'notes.html'
@@ -14,14 +16,16 @@ export class TravelNotesPage {
         public navCtrl: NavController,
         public navParams: NavParams,
         public loadingCtrl: LoadingController,
-        public modalCtrl: ModalController
+        public modalCtrl: ModalController,
+        private userInfoService: UserInfoService,
     ) {
-        this.location = this.navParams.get('location')
-        this.getNotes(this.location[1])
         this.loader = this.loadingCtrl.create({
             content: "Loading...",
         });
-        this.likeMap = new Map()
+        this.loader.present();
+        this.userInfo = this.userInfoService.getUserInfo()
+        this.location = this.navParams.get('location')
+        this.getNotes(this.location[1])
         this.searchType = 0
         this.show = true
     }
@@ -34,26 +38,46 @@ export class TravelNotesPage {
     notesOri: PostData[]
     window = 3
     bufIndex = 0
-    likeMap: Map<number, LikeData>
+    likeMap = new Map<number, LikeData>()
+    islikeMap = new Map<number, number>()
     loader: any
     likeColor: string[]
     searchType: number
     show: boolean
+    userInfo: UserInfoData
 
     pushNote(note: PostData){
         let noteModal = this.modalCtrl.create(NotePage, {'note': note});
+        let islike = note.islike
 		noteModal.onDidDismiss(data => {
-            console.log(data.zanid)
-            updateZanReq(data).then((success) => {
-            
+                // console.log(data.zanid)
+                if(islike != note.islike){
+                    if(note.islike){
+                        this.addLikeInfo(note.id)
+                    }
+                    else{
+                        this.deleteLikeInfo(note.id)
+                    }
+                }
+                updateZanReq(data).then((success) => {
+                
             }, (error) => {
                 console.debug("updateZanReq:" + error);
             });
 		});
 		noteModal.present()
-    
     }
-    
+    getLikeInfoList(location: string){
+        zanInfoReq(this.userInfo.username).then((success) => {
+            console.log("zanListReq: " + success['Zaninfo'])
+            for(let i in success['Zaninfo']){
+                this.islikeMap.set(success['Zaninfo'][i].postid, success['Zaninfo'][i].id)
+            }
+            this.getLikeList(location)
+        }, (error) => {
+            console.debug("zanInfoReq:" + error);
+        });
+    }
     getLikeList(location: string){
         zanListReq().then((success) => {
             // console.log("zanListReq" + success['Zan'])
@@ -69,7 +93,7 @@ export class TravelNotesPage {
     }
     getNotesList(location: string){
         let datas = []
-        this.loader.present();
+        
         postListReq().then((success) => {
             // console.log("postListReq" + success['Post'])
             for(let i in success['Post']){
@@ -78,9 +102,13 @@ export class TravelNotesPage {
                     if(likeData == undefined){
                         likeData = new LikeData(0, 0, 0, 0)
                     }
+                    let islike = true
+                    if(this.islikeMap.get(success['Post'][i].id) == undefined){
+                        islike = false
+                    }
                     let data = new PostData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
                                                     success['Post'][i].author, null, success['Post'][i].location, 
-                                                    success['Post'][i].submittime, false, likeData.zan, likeData.read, likeData.zanid)
+                                                    success['Post'][i].submittime, islike, likeData.zan, likeData.read, likeData.zanid)
                     datas.push(data)
                 }
             }
@@ -99,7 +127,7 @@ export class TravelNotesPage {
         });
     }
     getNotes(location: string){
-        this.getLikeList(location) // Get like list first.
+        this.getLikeInfoList(location) // Get like list first.
     }
 
     pushNotes(){
@@ -107,7 +135,10 @@ export class TravelNotesPage {
             // console.log(this.bufIndex)
             // console.log(this.notesBuf[this.bufIndex])
             this.notes.push(this.notesBuf[this.bufIndex])
-            this.notes[this.notes.length - 1].abstract = (this.notes[this.notes.length - 1].content.substr(0, 200) + "......")
+            this.notes[this.notes.length - 1].abstract = (this.notes[this.notes.length - 1].content.substr(0, 200))
+            if(this.notes[this.notes.length - 1].abstract.length >= 200){
+                this.notes[this.notes.length - 1].abstract += "......"
+            }
         }
     }
 
@@ -183,10 +214,25 @@ export class TravelNotesPage {
         this.bufIndex = 0
         this.pushNotes()
     }
+    addLikeInfo(postid: number){
+        addZanInfoReq(postid, this.userInfo.username).then((success) => {
+            
+        }, (error) => {
+            console.debug("updateZanReq:" + error);
+        });
+    }
+    deleteLikeInfo(postid: number){
+        deleteZanInfoReq(this.islikeMap.get(postid)).then((success) => {
+            
+        }, (error) => {
+            console.debug("deleteZanInfoReq:" + error);
+        });
+    }
     doLike(note: PostData){
         note.islike = true
         note.zan += 1
-        console.log(note.zanid)
+        console.log("Like: " + note.zanid)
+        this.addLikeInfo(note.id)
         updateZanReq(note).then((success) => {
             
         }, (error) => {
@@ -196,7 +242,8 @@ export class TravelNotesPage {
     doDislike(note: PostData){
         note.islike = false
         note.zan -= 1
-        console.log(note.zanid)
+        console.log("Dislike: " + note.zanid)
+        this.deleteLikeInfo(note.id)
         updateZanReq(note).then((success) => {
             
         }, (error) => {

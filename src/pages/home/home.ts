@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 import { TravelNotesService } from '../../providers/TravelNotesService'
 import { TravelNotesPage } from '../notes/notes'
+import { LoginPage } from '../login/login'
 
 @Component({
   selector: 'page-home',
@@ -11,9 +12,12 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    travelNotesService: TravelNotesService
+    travelNotesService: TravelNotesService,
+    public modalCtrl: ModalController
   ) {
     this.cards = travelNotesService.getLocation()
+    let loginModal = this.modalCtrl.create(LoginPage);
+		loginModal.present()
   }
   cards = []
   push(location: string){

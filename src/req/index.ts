@@ -132,3 +132,15 @@ export const updateZanReq = zanInfo => fetch(`zan/${zanInfo.zanid}`,
 export const deleteZanReq = reviewid => fetch(`zan/${reviewid}`,
   {}, 'DELETE',
 );
+export const zanInfoReq = username => fetch(`zanInfo/?Zaninfo.username=${username}`,
+  {}, 'GET',
+);
+export const addZanInfoReq = (postid, username) => fetch('zanInfo',
+  {
+    postid: postid,
+    username: username,
+  }, 'POST',
+);
+export const deleteZanInfoReq = zanInfoid => fetch(`zanInfo/${zanInfoid}`,
+  {}, 'DELETE',
+);

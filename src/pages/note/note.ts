@@ -22,12 +22,14 @@ export class NotePage {
     doLike(note: PostData){
         note.islike = true
         note.zan += 1
-        console.log(note.zanid)
-        // updateZanReq(note).then((success) => {
-            
-        // }, (error) => {
-        //     console.debug("updateZanReq:" + error);
-        // });
+        console.log("Like: " + note.zanid)
+        
+    }
+    doDislike(note: PostData){
+        note.islike = false
+        note.zan -= 1
+        console.log("Dislike: " + note.zanid)
+        
     }
 	dismiss() {
         this.viewCtrl.dismiss(this.note);
