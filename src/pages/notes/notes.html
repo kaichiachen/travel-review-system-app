@@ -9,7 +9,7 @@
       
     <ion-content padding class="card-background-page">
         <ion-card>
-            <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+            <ion-searchbar [(ngModel)]="search" (ionInput)="getItems($event.target.value)"></ion-searchbar>
             <ion-item>
                 <ion-select [(ngModel)]="searchType" interface="popover" item-middle>
                     <ion-option value=0 (ionSelect)="doSearchLimit(0)">时间排序</ion-option>
@@ -37,6 +37,12 @@
             <ion-card-content button (click)="pushNote(note)">
                 {{note.abstract}}
             </ion-card-content>
+            <ion-item>
+                <ion-icon name="pricetag"></ion-icon>
+                <button ion-button round outline color="dark" *ngFor="let tag of note.getTagsArray()" (click)="searchTag(tag)">
+                        #{{tag}}
+                </button>
+            </ion-item>
             <ion-col>
                 <button *ngIf="note.islike" ion-button color="primary" clear small icon-start (click)="doDislike(note)">
                     <ion-icon name='thumbs-up'></ion-icon>

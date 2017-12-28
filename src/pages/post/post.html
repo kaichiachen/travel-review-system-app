@@ -24,9 +24,27 @@
 
             <ion-item>
                 <ion-label floating>内容</ion-label>
-                <ion-textarea formControlName="content"  rows=20 cols=40></ion-textarea>
+                <ion-textarea formControlName="content"  rows=10 cols=40></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating>标签</ion-label>
+                <ion-input type="text" formControlName="tag"></ion-input>
+                <button ion-button item-right icon-left (click)="addTag()">
+                    添加
+                    <ion-icon name="add"></ion-icon>
+                </button>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="pricetag"></ion-icon>
+                <button ion-button round outline color="dark"  *ngFor="let tag of tags">
+                        #{{tag}}
+                        <ion-icon name="close-circle" (click)="deleteTag(tag)"></ion-icon>
+                </button>
             </ion-item>
         </ion-list>
+        
+        
         <button ion-button full color="primary" (click)="post()" [disabled]="!PostForm.valid">发布</button>
         <button ion-button full color="secondary" (click)="save()">储存</button>
         <button ion-button full color="danger" (click)="delete()"  *ngIf="!isNewDraft">删除</button>

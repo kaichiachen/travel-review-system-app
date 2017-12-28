@@ -35,7 +35,11 @@ export class PostPage {
                 'title': [this.draftData.title, [Validators.required,]],
                 'content': [this.draftData.content, [Validators.required,]],
                 'location': [this.draftData.location, [Validators.required,]],
+                'tag':[],
             });
+            if(this.draftData.tags != undefined){
+                this.tags = this.draftData.tags.split(" ")
+            }
             this.isNewDraft = false
         }
     }
@@ -45,11 +49,36 @@ export class PostPage {
     date: Date
     userInfo: UserInfoData
     locations = []
+    tags = []
     PostForm = this.formBuilder.group({
         'title': ['', [Validators.required,]],
         'content': ['', [Validators.required,]],
         'location': ['', [Validators.required,]],
+        'tag':[],
     });
+    addTag(){
+        this.tags.push(this.PostForm.value.tag)
+        let title = this.PostForm.value.title
+        let content = this.PostForm.value.content
+        let location = this.PostForm.value.location
+        console.log("addTag: " + this.tags)
+        this.PostForm = this.formBuilder.group({
+            'title': [title, [Validators.required,]],
+            'content': [content, [Validators.required,]],
+            'location': [location, [Validators.required,]],
+            'tag':[],
+        })
+    }
+    deleteTag(tag: string){
+        this.tags.splice(this.tags.indexOf(tag), 1)
+    }
+    setTags(tags: string[]): string{
+        let ret = ""
+        for(let i in tags){
+            ret += (tags[i] + " ")
+        }
+        return ret.slice(0, ret.length - 1)
+    }
     post(){
         let text = this.checkContent(this.PostForm.value.content)
         if(text != null){
@@ -70,7 +99,9 @@ export class PostPage {
                                         this.userInfo.name, 
                                         this.userInfo.username,
                                         this.PostForm.value.location,
-                                        this.date.getTime())
+                                        this.date.getTime(),
+                                        "")
+        draftData.tags = draftData.arrayToStr(this.tags)
         loader.present();
         addReviewPostReq(draftData).then((success) => {
             console.log("addDraftPostReq: success! -> " + draftData.title)
@@ -141,7 +172,8 @@ export class PostPage {
                                         this.userInfo.name, 
                                         this.userInfo.username,
                                         this.PostForm.value.location,
-                                        this.date.getTime())
+                                        this.date.getTime(),
+                                        this.setTags(this.tags))
         if(this.navParams.get('draftData') == undefined){
             this.add(draftData)
         }

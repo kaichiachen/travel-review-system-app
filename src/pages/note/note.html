@@ -25,6 +25,12 @@
             <ion-card-content button>
                 {{note.content}}
             </ion-card-content>
+            <ion-item>
+                <ion-icon name="pricetag"></ion-icon>
+                <button ion-button round outline color="dark" *ngFor="let tag of note.getTagsArray()">
+                        #{{tag}}
+                </button>
+            </ion-item>
             <ion-col>
                 <button *ngIf="note.islike" ion-button color="primary" clear small icon-start (click)="doDislike(note)">
                     <ion-icon name='thumbs-up'></ion-icon>

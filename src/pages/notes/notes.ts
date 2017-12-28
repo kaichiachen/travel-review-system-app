@@ -45,6 +45,8 @@ export class TravelNotesPage {
     searchType: number
     show: boolean
     userInfo: UserInfoData
+    tagsMap = new Map<string, PostData[]>()
+    search = ""
 
     pushNote(note: PostData){
         let noteModal = this.modalCtrl.create(NotePage, {'note': note});
@@ -108,7 +110,22 @@ export class TravelNotesPage {
                     }
                     let data = new PostData(success['Post'][i].id, success['Post'][i].title, success['Post'][i].content,
                                                     success['Post'][i].author, null, success['Post'][i].location, 
-                                                    success['Post'][i].submittime, islike, likeData.zan, likeData.read, likeData.zanid)
+                                                    success['Post'][i].submittime, success['Post'][i].tags, islike, likeData.zan, likeData.read, likeData.zanid)
+                    if(success['Post'][i].tags != undefined){
+                        let tags = success['Post'][i].tags.split(" ")
+                        for(let i in tags){
+                            if(this.tagsMap.get(tags[i]) == undefined){
+                                // console.log("tagsMap set: " + tags[i])
+                                this.tagsMap.set(tags[i], [data])
+                            }
+                            else{
+                                // console.log("tagsMap set push: " + tags[i])
+                                let notes = this.tagsMap.get(tags[i])
+                                notes.push(data)
+                                this.tagsMap.set(tags[i], notes)
+                            }
+                        }
+                    }
                     datas.push(data)
                 }
             }
@@ -120,7 +137,8 @@ export class TravelNotesPage {
             else{
                 this.bst = []
             }
-            this.pushNotes()
+            this.doLimit(this.limit)
+            // this.pushNotes()
             this.loader.dismiss()
         }, (error) => {
             console.debug("postListReq:" + error);
@@ -155,17 +173,16 @@ export class TravelNotesPage {
     }
     reloadNotes(){
         this.notes = []
-        for(let i = 0; i < this.bufIndex; i++){
-            this.notes.push(this.notesBuf[i])
-        }
+        // for(let i = 0; i < this.bufIndex; i++){
+        //     this.notes.push(this.notesBuf[i])
+        // }
     }
-    getItems(ev: any) {
+    getItems(val: string) {
         // Reset items back to all of the items
         this.reloadNotes();
     
         // set val to the value of the searchbar
-        let val = ev.target.value;
-        if(val == ""){
+        if(val == "" || val == undefined){
             this.notesBuf = this.notesOri
             this.notes = []
             this.bufIndex = 0
@@ -177,6 +194,20 @@ export class TravelNotesPage {
                 this.bst = []
             }
         }
+        else if(val[0] == "#"){
+            val = val.substr(1)
+            this.notes = []
+            this.notesBuf = []
+            this.bufIndex = 0
+            if(this.tagsMap.get(val) != undefined){
+                console.log("#Tag search: " + val)
+                this.notesBuf = this.tagsMap.get(val)
+                this.bst = makeBST(this.notesBuf);
+                this.pushNotes()
+            }
+            return
+        }
+        
         // if the value is an empty string don't filter the items
         if (val && val.trim() != '') {
             this.notesBuf = this.notesOri.filter((item) => {
@@ -261,6 +292,7 @@ export class TravelNotesPage {
         switch(opt){
             case 0:
             this.show = true
+            this.doLimit(this.limit)
             break
             case 1:
             this.doHotLimit()
@@ -268,12 +300,16 @@ export class TravelNotesPage {
         }
     }
     doHotLimit(){
-        this.notesBuf = this.notesOri.sort(this.compareFunc)
+        this.notesBuf = this.notesBuf.sort(this.compareFunc)
         this.notes = []
         this.bufIndex = 0
         this.pushNotes()
     }
     compareFunc(a: PostData, b: PostData) {
         return (((b.zan * 0.8) + (b.read * 0.2)) - ((a.zan * 0.8) + (a.read * 0.2)));
-      }
+    }
+    searchTag(tag: string){
+        this.search = "#" + tag
+        this.getItems(this.search)
+    }
 }
