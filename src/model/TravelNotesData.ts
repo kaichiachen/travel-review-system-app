@@ -30,12 +30,12 @@ export class TravelNotesData{
         if(this.tags == undefined){
             return null
         }
-        return this.tags.split(" ")
+        return this.tags.split(",")
     }
     arrayToStr(tags: string[]): string{
         let ret = ""
         for(let i in tags){
-            ret += (tags[i] + " ")
+            ret += (tags[i] + ",")
         }
         return ret.slice(0, ret.length - 1)
     }

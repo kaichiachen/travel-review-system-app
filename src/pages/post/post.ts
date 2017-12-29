@@ -38,7 +38,7 @@ export class PostPage {
                 'tag':[],
             });
             if(this.draftData.tags != undefined){
-                this.tags = this.draftData.tags.split(" ")
+                this.tags = this.draftData.tags.split(",")
             }
             this.isNewDraft = false
         }
@@ -75,7 +75,7 @@ export class PostPage {
     setTags(tags: string[]): string{
         let ret = ""
         for(let i in tags){
-            ret += (tags[i] + " ")
+            ret += (tags[i] + ",")
         }
         return ret.slice(0, ret.length - 1)
     }

@@ -69,7 +69,7 @@ const sortListToBST = (postinfo) => {
 /* eslint arrow-body-style: ["error", "always"] */
 export const makeBST = (postinfo) => {
   return sortListToBST(postinfo.sort((a, b) => {
-    return a.submittime < b.submittime;
+    return a.submittime > b.submittime;
   }));
 };
 

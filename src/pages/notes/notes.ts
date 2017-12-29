@@ -112,7 +112,7 @@ export class TravelNotesPage {
                                                     success['Post'][i].author, null, success['Post'][i].location, 
                                                     success['Post'][i].submittime, success['Post'][i].tags, islike, likeData.zan, likeData.read, likeData.zanid)
                     if(success['Post'][i].tags != undefined){
-                        let tags = success['Post'][i].tags.split(" ")
+                        let tags = success['Post'][i].tags.split(",")
                         for(let i in tags){
                             if(this.tagsMap.get(tags[i]) == undefined){
                                 // console.log("tagsMap set: " + tags[i])
